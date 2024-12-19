@@ -1,0 +1,18 @@
+federation_version: =2.3.2
+subgraphs:
+  accounts:
+    routing_url: http://localhost:4011/
+    schema:
+      file: ./src/services/accounts/typeDefs.graphql
+  inventory:
+    routing_url: http://localhost:4012/
+    schema:
+      file: ./src/services/inventory/typeDefs.graphql
+  products:
+    routing_url: http://localhost:4013/
+    schema:
+      file: ./src/services/products/typeDefs.graphql
+  reviews:
+    routing_url: http://localhost:4014/
+    schema:
+      file: ./src/services/reviews/typeDefs.graphql

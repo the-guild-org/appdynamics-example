@@ -1,0 +1,47 @@
+exporters:
+  otlphttp:
+    endpoint: "https://pdx-sls-agent-api.saas.appdynamics.com"
+    headers: {"x-api-key": "${env:APPD_API_KEY}"}
+  debug:
+    verbosity: detailed
+
+processors:
+  resource:
+    attributes:
+    - key: appdynamics.controller.account
+      action: upsert
+      value: ${env:APPD_CONTROLLER_ID}
+    - key: appdynamics.controller.host
+      action: upsert
+      value: ${env:APPD_CONTROLLER_ID}.saas.appdynamics.com
+    - key: appdynamics.controller.port
+      action: upsert
+      value: 443
+    - key: service.namespace
+      action: upsert
+      value: ${env:APPD_APPLICATION_NAME}
+    - key: service.name
+      action: upsert
+      value: ${env:APPD_APPLICATION_TIER}
+  batch:
+    timeout: 30s
+    send_batch_size: 90
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [otlphttp, debug]
+
+extensions:
+  zpages:
+    endpoint: 0.0.0.0:55679

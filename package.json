@@ -1,4 +1,23 @@
 {
-  "name": "appdynamics",
-  "packageManager": "yarn@4.4.1"
+  "name": "@hive/appdynamics-example",
+  "packageManager": "yarn@4.4.1",
+  "type": "commonjs",
+  "scripts": {
+    "start:services": "tsx src/services/accounts/index.ts && tsx src/services/inventory/index.ts && tsx src/services/products/index.ts && tsx src/services/reviews/index.ts",
+    "start:gateway": "node src/gateway.cjs",
+    "start:otel": "docker compose up",
+    "compose": "rover supergraph compose --config ./supergraph.yaml > supergraph.graphql"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.10.3",
+    "@apollo/subgraph": "^2.7.2",
+    "@envelop/opentelemetry": "^6.3.1",
+    "@graphql-hive/gateway": "^1.6.5",
+    "@graphql-mesh/plugin-opentelemetry": "^1.3.24",
+    "appdynamics": "^24.10.0",
+    "dotenv": "^16.4.7",
+    "graphql": "^16.9.0",
+    "graphql-yoga": "^5.10.4",
+    "tsx": "^4.19.2"
+  }
 }
